@@ -26,4 +26,16 @@ export const getById = async stuffId => {
   const {data} = await axios.get('/api/stuffs/' + stuffId);
   return data;
 }
-  
+
+export async function deleteById(stuffId) {
+  await axios.delete('/api/stuffs/' + stuffId);
+}
+
+export async function update(stuff) {
+  await axios.put('/api/stuffs', stuff);
+}
+
+export async function add(stuff) {
+  const { data } = await axios.post('/api/stuffs', stuff);
+  return data;
+}

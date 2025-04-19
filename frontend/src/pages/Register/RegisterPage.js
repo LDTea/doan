@@ -6,6 +6,7 @@ import classes from '../../pages/Register/RegisterPage.module.css'
 import Button from '../../Component/Button/Button';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { EMAIL } from '../../constants/patterns';
  
 export default function RegisterPage() {
    const auth = useAuth();
@@ -15,9 +16,9 @@ export default function RegisterPage() {
    const returnUrl = params.get('returnUrl');
  
    useEffect(() => {
-     if (!user) return;
-     returnUrl ? navigate(returnUrl) : navigate('/');
-   }, [user]);
+    if (!user) return;
+    returnUrl ? navigate(returnUrl) : navigate('/');
+  }, [user, navigate, returnUrl]);
  
    const {
      handleSubmit,
@@ -50,10 +51,7 @@ export default function RegisterPage() {
              label="Email"
              {...register('email', {
                required: true,
-               pattern: {
-                 value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,63}$/i,
-                 message: 'Email Is Not Valid',
-               },
+               pattern: EMAIL,
              })}
              error={errors.email}
            />

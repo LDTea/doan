@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cd backend && npm start",
+    "prebuild": "cd backend && npm install & cd frontend && npm install",
     "build": "cd frontend && npm run build",
     "postbuild": "shx mv frontend/build backend/src/public"
   },
@@ -13,5 +14,8 @@
   "description": "",
   "devDependencies": {
     "shx": "^0.4.0"
+  },
+  "engines": {
+    "node": ">=18 <19"
   }
 }

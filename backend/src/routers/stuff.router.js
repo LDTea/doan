@@ -1,6 +1,7 @@
 import {Router} from "express";
 import { StuffModel } from "../models/stuff.model.js";
 import handler from 'express-async-handler';
+import admin from "../middleware/admin.mid.js";
 
 const router = Router();
 
@@ -9,6 +10,63 @@ router.get(
   handler(async (req, res) => {
     const stuffs = await StuffModel.find({});
     res.send(stuffs);
+  })
+);
+
+router.post(
+  '/',
+  admin,
+  handler(async (req, res) => {
+    const { name, price, tags, favorite, imageUrl, origins, cookTime } =
+      req.body;
+
+    const stuff = new StuffModel({
+      name,
+      price,
+      tags: tags.split ? tags.split(',') : tags,
+      favorite,
+      imageUrl,
+      origins: origins.split ? origins.split(',') : origins,
+      cookTime,
+    });
+
+    await stuff.save();
+
+    res.send(stuff);
+  })
+);
+
+router.put(
+  '/',
+  admin,
+  handler(async (req, res) => {
+    const { id, name, price, tags, favorite, imageUrl, origins, cookTime } =
+      req.body;
+
+    await StuffModel.updateOne(
+      { _id: id },
+      {
+        name,
+        price,
+        tags: tags.split ? tags.split(',') : tags,
+        favorite,
+        imageUrl,
+        origins: origins.split ? origins.split(',') : origins,
+        cookTime,
+      }
+    );
+
+    res.send();
+  })
+);
+
+router.delete(
+  '/:stuffId',
+  admin,
+  handler(async (req, res) => {
+    const { stuffId } = req.params;
+    await StuffModel.deleteOne({ _id: stuffId });
+    res.send();
   })
 );
 

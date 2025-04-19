@@ -1,5 +1,4 @@
 export const sample_stuffs = [
-  // cần sửa lại tên
     {
         id: '1',
         name: 'Pizza Pepperoni',
